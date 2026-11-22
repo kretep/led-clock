@@ -39,7 +39,8 @@ COLOR_HOUR = (0, 255, 0)
 COLOR_MINUTE = (0, 255, 0)
 COLOR_SECOND = (255, 50, 0)     # warm red, leaning orange
 COLOR_MARKER = (28, 28, 28)
-COLOR_MARKER_12 = (90, 90, 90)
+SMOOTH_HANDS = False            # False: hour/minute hands are one crisp LED that steps.
+                               # True: they glide, blending across 2 LEDs in between.
 
 # --- Misc --------------------------------------------------------------------
 DEFAULT_MODE = "clock"

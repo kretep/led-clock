@@ -31,9 +31,8 @@ class Classic:
     def _draw_markers(ring):
         bg = ring.background()
         bg.clear()
-        for k in range(5, 60, 5):
+        for k in range(0, 60, 5):
             bg.set(k, *config.COLOR_MARKER)
-        bg.set(0, *config.COLOR_MARKER_12)
 
     def render(self, d, t):
         if not timeutil.synced():
@@ -47,7 +46,10 @@ class Classic:
         i.clear()
 
         sec = s + ms / 1000
-        o.dot(m + sec / 60, *config.COLOR_MINUTE)
+        if config.SMOOTH_HANDS:
+            o.dot(m + sec / 60, *config.COLOR_MINUTE)
+        else:
+            o.add(m, *config.COLOR_MINUTE)          # exactly one LED
 
         r, g, b = config.COLOR_SECOND
         o.dot(sec, r, g, b)
@@ -55,7 +57,11 @@ class Classic:
             f = 0.45 / k
             o.dot(sec - k * 0.6, r * f, g * f, b * f)
 
-        i.dot(hour_pos(h, m, i.n), *config.COLOR_HOUR, radius=1.3)
+        hp = hour_pos(h, m, i.n)
+        if config.SMOOTH_HANDS:
+            i.dot(hp, *config.COLOR_HOUR)
+        else:
+            i.add(int(hp), *config.COLOR_HOUR)      # one LED; 12 h dial: steps every half hour
 
 
 class RainbowFace:
